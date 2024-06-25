@@ -1,0 +1,42 @@
+{
+    "name": "Scraping",
+    "version": "1.0.0",
+    "manifest_version": 3,
+    "description": "Scraping",
+    "icons": {
+ 
+      "48": "icon48.png"
+
+    },
+    "action": {
+      "default_icon": {
+       
+        "48": "icon48.png"
+
+      },
+      "default_title": "Scraping",
+      "default_popup": "popup.html"
+    },
+  
+    "background": {
+      "service_worker": "background.js",
+      "persistent": false
+    },
+   
+    "host_permissions": ["*://*/*"],
+    "permissions": [
+        "activeTab",
+        "tabs",
+        "fileSystem",
+        "https://snkrdunk.com/*",
+        "https://stockx.com/*",
+        "https://stockx.com/ja-jp/*",
+        "https://snkrdunk.com/products/*",
+        "http://*/*", "https://*/*",
+        "scripting",
+
+        "cookies"
+      ]
+    
+  }
+  
