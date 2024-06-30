@@ -36,3 +36,42 @@ const URLS = [
     });
   };
   
+  const gotoPage = async (suffix, url, tabId) => {
+    const targetUrl = suffix + url;
+    await chrome.tabs.update(tabId, { url: targetUrl });
+  
+    await new Promise((resolve) => {
+      chrome.tabs.onUpdated.addListener(function listener(tabId, changeInfo) {
+        if (changeInfo.status === "complete") {
+          chrome.tabs.onUpdated.removeListener(listener);
+          resolve();
+        }
+      });
+    });
+  
+    console.log(`Navigated to ${targetUrl}`);
+  };
+  
+  const getPageProducts = async (tabId) => {
+    const products = await executeScript(tabId, () => {
+      return Array.from(
+        document.querySelectorAll(".css-111hzm2-GridProductTileContainer")
+      ).map((element) => element.querySelector("a").getAttribute("href"));
+    });
+    return products;
+  };
+  
+  const getPageSize = async (tab_id) => {
+    let result = await executeScript(tab_id, () => {
+      return Array.from(
+        document.body.querySelectorAll(".css-1r3f7y5-PaginationButton")
+      ) //
+        .map((element) => element.textContent);
+    });
+    if (result && result[0]?.length >= 1) {
+      result = result;
+      console.log(result);
+  
+      return result[result.length - 1];
+    }
+  };
