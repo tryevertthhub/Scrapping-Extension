@@ -75,3 +75,10 @@ const URLS = [
       return result[result.length - 1];
     }
   };
+
+  chrome.runtime.onStartup.addListener(function() {
+    chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
+      const tab_id = tabs[0].id;
+      console.log("start");
+    });
+  })
