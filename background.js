@@ -76,6 +76,71 @@ const URLS = [
     }
   };
 
+  const getDetail2 = async (tabId) => {
+    const result = await executeScript(tabId, () => {
+      const elements = Array.from(document.body.querySelectorAll(".css-1ufjsin"));
+      return elements.map((element) => [
+        element.querySelector("span").textContent,
+        element.querySelector("p").textContent,
+      ]);
+    });
+    return result;
+  };
+  
+  const getDetailFromTable = async (tab_id, className) => {
+    const result = await executeScript(
+      tab_id,
+      (query) => {
+        return Array.from(document.body.querySelectorAll(`${query}`)).map(
+          (element) => element.textContent.toString()
+        );
+      },
+      [className]
+    );
+    return result[0];
+  };
+  //product-detail-info-table
+  const getsizeDetailFromTable = async (tab_id) => {
+    const result = await executeScript(tab_id, () => {
+      const element = document.body.querySelector(".buy-size-select-box");
+      const elements = Array.from(element.querySelectorAll(".list"));
+      return elements.map((element) => [
+        element.querySelector(".num").textContent,
+        element.querySelector(".size-price").textContent.toString().trim(),
+      ]);
+    });
+    return result;
+  };
+  
+  const test = async (tab_id, className) => {
+    const result = await executeScript(
+      tab_id,
+      (query) => {
+        const table = document.querySelector(query);
+  
+        // Get the data from the table
+        const data = [];
+        const rows = Array.from(table.querySelectorAll("tr"));
+        rows.forEach((row) => {
+          const firstCell = row.querySelector("td");
+          if (firstCell) {
+            const cellData = firstCell.textContent.trim();
+            data.push(cellData);
+          }
+        });
+        return data;
+      },
+      [className]
+    );
+    return result;
+  };
+  const getProductDescription = async (tabId) => {
+    const result = await executeScript(tabId, () => {
+      const p = document.querySelector(".product-name-jp");
+      return p.textContent;
+    });
+    return result;
+  };
   chrome.runtime.onStartup.addListener(function() {
     chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
       const tab_id = tabs[0].id;
