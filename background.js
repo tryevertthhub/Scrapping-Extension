@@ -141,6 +141,29 @@ const URLS = [
     });
     return result;
   };
+  const getRate = async (tabId) => {
+    const result = await executeScript(tabId, () => {
+      const p = document.querySelector(".lWzCpb.a61j6");
+      return p.value;
+    });
+    return result;
+  };
+  const getRate1 = async (tabId) => {
+    const result = await executeScript(tabId, () => {
+      const p = document.querySelector(".DFlfde.SwHCTb");
+      return p.value;
+    });
+    return result;
+  };
+  //
+  const getLowestPrice = async (tabId) => {
+    const result = await executeScript(tabId, () => {
+      const p = document.querySelector(".product-lowest-price");
+      return p.textContent.toString().trim();
+    });
+    return result;
+  };
+  //
   chrome.runtime.onStartup.addListener(function() {
     chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
       const tab_id = tabs[0].id;
