@@ -163,6 +163,31 @@ const URLS = [
     });
     return result;
   };
+
+  const getPrice = async (tabId) => {
+    const result = await executeScript(tabId, () => {
+      const p = document.querySelector(".chakra-text.css-1q8ctst");
+      return p.textContent.toString().trim();
+    });
+    return result;
+  };
+  //出品待ち
+  
+  const ChooseNumber = (str) => {
+    return parseInt(str.replace(/\D/g, ""));
+  };
+  
+  const getMaximum = (array, index) => {
+    let max = array[0][index]; // Set the initial maximum value to the first element of the first column
+  
+    for (let i = 1; i < array.length; i++) {
+      if (array[i][index] > max) {
+        max = array[i][index]; // Update the maximum value if a higher value is found
+      }
+    }
+    return max;
+  
+  }
   //
   chrome.runtime.onStartup.addListener(function() {
     chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
