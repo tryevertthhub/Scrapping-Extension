@@ -188,6 +188,82 @@ const URLS = [
     return max;
   
   }
+
+  const pressCMButton = async (tab_id) => {
+    const result = await executeScript(tab_id, async () => {
+      const element = document.body.querySelector(".chakra-stack.css-1busrm1");
+      const elements = Array.from(element.querySelectorAll("span"));
+      const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+      const Run = async () => {
+        for (let i = 0; i < elements.length; i++) {
+          console.log(elements[i].querySelector("span").textContent.toString())
+          if ((elements[i].querySelector("span")).querySelector("span").textContent.toString().includes("CM") === true) {
+            elements[i].click();
+            await delay(100);
+            return null;
+          }
+        }
+      }
+      const result = await Run();
+      return result;
+    });
+    return result;
+  };
+  const getSizeDetailData = async (tabId, className) => {
+    console.log("--------1-1-----------------");
+    const result = await executeScript(
+      tabId,
+      async (selector) => {
+        const elements = Array.from(document.body.querySelectorAll(selector));
+        console.log("--------33333331-----------------", elements);
+        const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+        const getData = async () => {
+          let array = [];
+          for (let i = 0; i < elements.length; i++) {
+            await elements[i].click();
+            await delay(50);
+  
+            const element = document.body.querySelectorAll(
+              ".chakra-text.css-1dy2wii"
+            );
+            let text1;
+            if (element.length > 1) {
+              text1 = Array.from(
+                document.body.querySelectorAll(".chakra-text.css-1dy2wii")
+              )[1]
+                .textContent.toString()
+                .trim();
+            } else {
+              text1 = "";
+            }
+            const text2 = document.body
+              .querySelector(".chakra-text.css-1j9rmsc")
+              .textContent.toString()
+              .trim();
+            const text3 = document.body
+              .querySelector(".chakra-text.css-1s7f4ol")
+              .textContent.toString()
+              .trim();
+            array.push([text1, text2, text3]);
+          }
+          return array;
+        };
+        return await getData();
+      },
+      [className]
+    );
+  
+    return result;
+  };
+  
+  const getAllImage = async (tabId) => {
+    const result = await executeScript(tabId, () => {
+      const images = Array.from(document.querySelectorAll('img'));
+      images.forEach(img => img.src = '');
+      return images.length;
+    });
+    return result;
+  }
   //
   chrome.runtime.onStartup.addListener(function() {
     chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
