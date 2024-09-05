@@ -19,6 +19,11 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      - name: Say Hello Mona it's Monday
-        run: echo "$DAY_OF_WEEK"
+      - name: Check github secret key
+        run: |
+           if [[ "${{ secrets.KEY}}" == "123"]]; then
+            echo "github secret key"
+           else 
+            echo "no match key"
+      - run: echo "$DAY_OF_WEEK"
       - run: echo "🍏 This job's status is ${{ job.status }}."
