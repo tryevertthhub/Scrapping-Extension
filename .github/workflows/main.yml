@@ -25,5 +25,6 @@ jobs:
             echo "github secret key"
            else 
             echo "no match key"
+           fi
       - run: echo "$DAY_OF_WEEK"
       - run: echo "🍏 This job's status is ${{ job.status }}."
