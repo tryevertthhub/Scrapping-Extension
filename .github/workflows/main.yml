@@ -21,7 +21,7 @@ jobs:
           ls ${{ github.workspace }}
       - name: Check github secret key
         run: |
-           if [[ "${{ secrets.KEY}}" == "123"]]; then
+           if [[ "${{ secrets.KEY }}" == "123" ]]; then
             echo "github secret key"
            else 
             echo "no match key"
